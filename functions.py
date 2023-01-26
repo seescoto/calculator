@@ -2,6 +2,7 @@
 
 ###main entry point 
 fieldText = ""
+base = 10
 
 def addEquationEnd(field, equation):  
    global fieldText 
@@ -17,8 +18,7 @@ def addEquationFront(field, equation):
    global fieldText 
    if len(fieldText) != 0:
       fieldText = str(equation) + "(" + fieldText + ")" 
-      #replace content 
-      field.delete("1.0", "end") 
+      #replace content  
       field.insert("1.0", fieldText)
 
 #press equal button
@@ -34,3 +34,14 @@ def clear(field):
    global fieldText 
    fieldText = "" 
    field.delete("1.0", "end")
+
+def setBase(newBase):
+   global base 
+   base = newBase 
+
+
+def copyAns(field):
+   pass
+
+def openHelpPage():
+   pass
