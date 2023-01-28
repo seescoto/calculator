@@ -109,7 +109,7 @@ buttonSub.grid(row = 4, column = 6, padx = padwidth, pady = padheight)
 buttonAdd = tk.Button(window, text = "+", command = lambda: addEquationEnd(field, "+"), width = buttonwidth)
 buttonAdd.grid(row = 5, column = 6, padx = padwidth, pady = padheight)
 
-buttonEqual = tk.Button(window, text = "=", command = lambda: calculate(field), width = buttonwidth)
+buttonEqual = tk.Button(window, text = "=", command = lambda: equals(field), width = buttonwidth)
 buttonEqual.grid(row = 6, column = 6, padx = padwidth, pady = padheight)
 
 
@@ -136,25 +136,24 @@ buttonPower.grid(row = 6, column = 2, padx = padwidth, pady = padheight)
 
 #col3 buttons 
 #help, copy ans, pi, e, log, sqrt
-buttonHelp = tk.Button(window, text = "? HELP ?", command = lambda: openHelpPage(), width = buttonwidth)
+buttonHelp = tk.Button(window, text = "Help!", command = lambda: openHelpPage(), width = buttonwidth)
 buttonHelp.grid(row = 1, column = 1, padx = padwidth, pady = padheight)
 
-buttonAns = tk.Button(window, text = "ANS", command = lambda: copyPrevResult(field), width = buttonwidth)
+buttonAns = tk.Button(window, text = "ans", command = lambda: copyAns(field), width = buttonwidth)
 buttonAns.grid(row = 2, column = 1, padx = padwidth, pady = padheight)
 
 buttonPi = tk.Button(window, text = "\u03C0", command = lambda: addEquationEnd(field, "\u03C0"), width = buttonwidth)
 buttonPi.grid(row = 3, column = 1, padx = padwidth, pady = padheight)
 
-buttonPar1 = tk.Button(window, text = "(", command = lambda: addEquationEnd(field, "("), width = buttonwidth)
+buttonPar1 = tk.Button(window, text = "e", command = lambda: addEquationEnd(field, "e"), width = buttonwidth)
 buttonPar1.grid(row = 4, column = 1, padx = padwidth, pady = padheight)
 
-buttonPar2 = tk.Button(window, text = ")", command = lambda: addEquationEnd(field, ")"), width = buttonwidth)
+buttonPar2 = tk.Button(window, text = "log", command = lambda: addEquationEnd(field, "log("), width = buttonwidth)
 buttonPar2.grid(row = 5, column = 1, padx = padwidth, pady = padheight)
 
-buttonPower = tk.Button(window, text = "^", command = lambda: addEquationEnd(field, "^"), width = buttonwidth)
+buttonPower = tk.Button(window, text = "\u221A", command = lambda: addEquationEnd(field, "\u221A"), width = buttonwidth)
 buttonPower.grid(row = 6, column = 1, padx = padwidth, pady = padheight)
 
-#\u221A1 <- sqrt symbol
 
 #always show window 
 window.mainloop()
