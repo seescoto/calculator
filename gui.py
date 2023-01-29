@@ -93,7 +93,7 @@ buttonF.grid(row = 1, column = 5, padx = padwidth, pady = padheight)
 
 
 #basic calc function buttons 
-#clear, /, *, -, +
+#clear, /, *, -, +, =
 buttonClear = tk.Button(window, text = "clear", command = lambda: clear(field), width = buttonwidth)
 buttonClear.grid(row = 1, column = 6, padx = padwidth, pady = padheight)
 
