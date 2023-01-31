@@ -43,19 +43,19 @@ def setBase(newBase):
 
 def equals(field):
    global fieldText 
-   postText = toPostFix(fieldText)
-   result = evalPostFix(fieldText)
+   #postText = toPostFix(fieldText)
+   #result = evalPostFix(fieldText)
 
-
-   #result = str(eval(fieldText)) 
+   result = str(eval(fieldText)) 
    #replace equation text 
    field.delete("1.0", "end") 
    field.insert("1.0", result)
 
 #press clear button 
 def clear(field):
-   global fieldText 
-   fieldText = "" 
+   global fieldText, fieldDisplay 
+   fieldText = ""
+   fieldDisplay = "" 
    field.delete("1.0", "end")
 
 def toPostFix(text):
@@ -79,7 +79,8 @@ def toPostFix(text):
          while postStack and top(postStack) != "(":
             postText += " " + postStack.pop() + " "
          #now must be left parentheses
-         postStack.pop()
+         if postStack: 
+            postStack.pop()
    #now just add rest of stack to postText
    while postStack:
       postText += " " + postStack.pop()

@@ -106,6 +106,8 @@ buttonF.grid(row = 2, column = 5, padx = padwidth, pady = padheight)
 #clear, /, *, -, +, =
 buttonClear = tk.Button(window, text = "clear", command = lambda: clear(field), width = buttonwidth)
 buttonClear.grid(row = 2, column = 6, padx = padwidth, pady = padheight)
+#if double clicked, clears all 
+buttonClear.bind('<Double-1>', func = lambda x: clearAll(window))
 
 buttonDiv = tk.Button(window, text = "/", command = lambda: addEquationEnd(field, "/"), width = buttonwidth)
 buttonDiv.grid(row = 3, column = 6, padx = padwidth, pady = padheight)
