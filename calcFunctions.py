@@ -6,6 +6,10 @@ fieldDisplay =""
 base = 10
 basePrefix =""
 
+def getBase():
+   global base 
+   return str(base)
+
 def addEquationEnd(field, equation):  
    global fieldText, fieldDisplay 
    fieldDisplay += str(equation)
@@ -74,9 +78,7 @@ def toPostFix(text):
          #just add everything else from stack to expression
          while postStack and top(postStack) != "(":
             postText += " " + postStack.pop() + " "
-         #now must be left parentheses, if not raise error, if it is pop (
-         if top(postStack) != "(":
-            raise SyntaxError
+         #now must be left parentheses
          postStack.pop()
    #now just add rest of stack to postText
    while postStack:
@@ -112,5 +114,3 @@ def top(list):
 def copyAns(field):
    pass
 
-def openHelpPage():
-   pass
