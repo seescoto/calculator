@@ -13,3 +13,6 @@
 
 #python cache 
 __pycache__
+
+#microservice - holds api key 
+config.py 
