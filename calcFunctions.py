@@ -27,8 +27,8 @@ def addEquationFront(field, equation):
    if len(fieldDisplay) != 0:
       fieldDisplay = str(equation) + "(" + fieldDisplay + ")" 
       if equation == "-":
-         #if negating, have it be n1 * (fieldText) where n1 = neg 1 
-         fieldText = "n1 * (" + fieldText + ")"
+         #if negating, have it be n1 * (fieldText) where n = negative 1 
+         fieldText = "n * (" + fieldText + ")"
       #replace content  
       field.delete("1.0", "end")
       field.insert("1.0", fieldDisplay)
@@ -115,3 +115,6 @@ def top(list):
 def copyAns(field):
    pass
 
+
+def getPrev(field):
+   pass
