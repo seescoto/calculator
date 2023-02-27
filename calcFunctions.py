@@ -68,8 +68,8 @@ def toPostFix(text):
 
    #go left to right for input string
    for char in text:
-      #if an operand (nums plus pi, e, n for negative), add to postText straight away
-      if char in "0123456789ABCDEF\u03C0en":
+      #if an operand (nums plus pi, e, n for negative, decimal point), add to postText straight away
+      if char in "0123456789ABCDEF\u03C0en.":
          postText += char
       #if an operator
       elif char in "^/*-+":
@@ -93,8 +93,6 @@ def toPostFix(text):
    print (postText)
    return postText
 
-
-
 def checkPriority(char, postStack, postText):
    #check the priority of the operator vs the top of the stack
 
@@ -117,13 +115,63 @@ def priority(char):
       return -1
    return 2 if char in high else 1 
 
-def evalPostFix(fieldText):
-   return fieldText 
-
 def top(arr):
    if arr:
       return arr[-1]
    return ""
+
+def evalPostFix(fieldText):
+   result = 0
+   stack = [] 
+   equation = fieldText.split() 
+
+   try:
+      for element in equation:
+         if isNumber(element):
+            stack.append(element)
+         else:
+            val1 = stack.pop() 
+            val2 = stack.pop() 
+            result = evaluate(val2, val1, element)
+            stack.append(result) 
+      return result  
+   
+   except:
+      #if nothing in stack then will get error - bc postfix is incorrect
+      print("SYNTAX ERROR") 
+
+   
+
+#returns if the string is a number in base hex, dec, or bin 
+def isNumber(string):
+   #number values - 0-9, A-F, pi, e, n for negative, decimal point
+   numberVals = "0123456789ABCDEF\u03C0en."
+   for char in string:
+      if char not in numberVals:
+         return False 
+   return True
+
+def evaluate(a, b, operator):
+   #returns (a operator b)
+   #switch statement in python is match arg case
+   a, b = float(a), float(b)
+   match operator:
+      case "+":
+         res = int(a) + b 
+      case "-":
+         res = a - b 
+      case "*":
+         res = a * b 
+      case "/":
+         res = a / b 
+      case "^":
+         res = a ** b 
+      case default:
+         res = None
+
+   return res
+
+
 
 def copyAns(field):
    pass
@@ -133,6 +181,8 @@ def getPrev(field):
    pass
 
 
+equation = "(1+2)^3"
+equation2 = equation.replace("^", "**")
+txt = toPostFix(equation)
+print(evalPostFix(txt), eval(equation), evalPostFix(txt) == eval(equation))
 
-toPostFix('A+B*(C-D)/E')
-toPostFix('A+B^(C-D)/E*(F^AF)')
