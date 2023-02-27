@@ -42,11 +42,12 @@ def setBase(newBase):
       basePrefix = "0b"
 
 def equals(field):
-   global fieldText 
-   #postText = toPostFix(fieldText)
-   #result = evalPostFix(fieldText)
+   global fieldText, fieldDisplay 
+   postText = toPostFix(fieldText)
+   result = evalPostFix(postText)
 
-   result = str(eval(fieldText)) 
+   result = str(eval(fieldText))
+   fieldText = "" 
    #replace equation text 
    field.delete("1.0", "end") 
    field.insert("1.0", result)
@@ -67,20 +68,21 @@ def toPostFix(text):
       #if an operand (nums plus pi, e, n for negative), add to postText straight away
       if char in "0123456789ABCDEF\u03C0en":
          postText += char
-      #if an operator (l for log, sqrt)
-      elif char in "^/*-+l\u221A":
+      #if an operator
+      elif char in "^/*-+":
          postText = checkPriority(char, postStack, postText)
       #if left parentheses, add to stack no matter what
       elif char == "(":
          postStack.append(char) 
       #else must be right parentheses
       else:
-         #just add everything else from stack to expression
+         #just add everything else from stack to expression until left parentheses
          while postStack and top(postStack) != "(":
             postText += " " + postStack.pop() + " "
          #now must be left parentheses
          if postStack: 
             postStack.pop()
+            
    #now just add rest of stack to postText
    while postStack:
       postText += " " + postStack.pop()
@@ -90,27 +92,35 @@ def toPostFix(text):
             
 def checkPriority(char, postStack, postText):
    #check the priority of the operator vs the top of the stack
-   high = "l^/*\u221A"
-   low = "+-"
-   equalLower = char in low  
-   equalHigher = char in high and top(postStack) in high 
+
+   topIsParenth = top(postStack) == "(" #if top of stack is left parentheses
+
+   leqToTop = priority(char) <= priority(top(postStack)) #if char prior is <= top stack prior
 
    #if lower priority or equal than top of stack, pop and repeat
-   while postStack and (equalLower or equalHigher):
+   while postStack and not(topIsParenth) and leqToTop:
       postText += postStack.pop() + " "
 
-   #if has higher priority than top of stack or nothing there, push 
-   if not postStack or (char in high and top(postStack) in low):
-      postText += " "
-      postStack.append(char) 
+   #if nothing or "(" at top of stack OR has higher priority than top of stack, push 
+   postText += " "
+   postStack.append(char) 
    
    return postText
+
+def priority(char):
+   high = "*/^"
+   low = "+-"
+   if char not in (low+high):
+      return -1
+   return 2 if char in high else 1 
 
 def evalPostFix(fieldText):
    return fieldText 
 
-def top(list):
-   return list[-1]
+def top(arr):
+   if arr:
+      return arr[-1]
+   return ""
 
 def copyAns(field):
    pass
@@ -118,3 +128,7 @@ def copyAns(field):
 
 def getPrev(field):
    pass
+
+
+
+print(toPostFix('A+B*(C-D)/E'))
