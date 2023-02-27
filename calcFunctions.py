@@ -52,6 +52,7 @@ def equals(field):
    field.delete("1.0", "end") 
    field.insert("1.0", result)
 
+
 #press clear button 
 def clear(field):
    global fieldText, fieldDisplay 
@@ -59,6 +60,8 @@ def clear(field):
    fieldDisplay = "" 
    field.delete("1.0", "end")
 
+
+#convert infix to postfix
 def toPostFix(text):
    postText = ""
    postStack = []
@@ -82,24 +85,24 @@ def toPostFix(text):
          #now must be left parentheses
          if postStack: 
             postStack.pop()
-            
-   #now just add rest of stack to postText
+
+   #add rest of stack to postText
    while postStack:
       postText += " " + postStack.pop()
 
    print (postText)
    return postText
-            
+
+
+
 def checkPriority(char, postStack, postText):
    #check the priority of the operator vs the top of the stack
 
    topIsParenth = top(postStack) == "(" #if top of stack is left parentheses
 
-   leqToTop = priority(char) <= priority(top(postStack)) #if char prior is <= top stack prior
-
    #if lower priority or equal than top of stack, pop and repeat
-   while postStack and not(topIsParenth) and leqToTop:
-      postText += postStack.pop() + " "
+   while postStack and not(topIsParenth) and (priority(char) <= priority(top(postStack))):
+      postText += " " + postStack.pop() + " "
 
    #if nothing or "(" at top of stack OR has higher priority than top of stack, push 
    postText += " "
@@ -131,4 +134,5 @@ def getPrev(field):
 
 
 
-print(toPostFix('A+B*(C-D)/E'))
+toPostFix('A+B*(C-D)/E')
+toPostFix('A+B^(C-D)/E*(F^AF)')
