@@ -1,37 +1,36 @@
 #functions for calculator
 
+import math
+import CalculatorMicroservice.MicroserviceClient as client
+
 ###main entry point 
 fieldText = ""
-fieldDisplay =""
 base = 10
 basePrefix =""
+ans = ""
 
 def getBase():
    global base 
    return str(base)
 
-def addEquationEnd(field, equation):  
-   global fieldText, fieldDisplay 
-   fieldDisplay += str(equation)
-   fieldText += str(equation)
-   #if neg number, 
+def toDisplay(equation):
+   #equation given to functions converted to what displays on the calc
+   #n1* becomes a negative sign
+   equation = equation.replace("n1*", "-")
+   return equation
+
+def addEquation(field, equation):  
+   global fieldText
+   #if negative sign
+   if equation == "neg":
+      #if negating, have it be n1 * (fieldText) where n1 = -1  
+      fieldText += "n1*" 
+   else:
+      fieldText += str(equation)
+
    #delete prev content from field 
    field.delete("1.0", "end") #delete from start to end
-   #put in new fieldText
-   field.insert("1.0", fieldDisplay) 
-
-def addEquationFront(field, equation):
-   #used for negating an entire answer, etc. 
-   #ONLY IF THERES SOMETHING IN THE TEXT ALREADY
-   global fieldText, fieldDisplay
-   if len(fieldDisplay) != 0:
-      fieldDisplay = str(equation) + "(" + fieldDisplay + ")" 
-      if equation == "-":
-         #if negating, have it be n1 * (fieldText) where n = negative 1 
-         fieldText = "n * (" + fieldText + ")"
-      #replace content  
-      field.delete("1.0", "end")
-      field.insert("1.0", fieldDisplay)
+   field.insert("1.0", toDisplay(fieldText)) #display equation
 
 def setBase(newBase):
    global base, basePrefix
@@ -41,25 +40,26 @@ def setBase(newBase):
    elif base == 2:
       basePrefix = "0b"
 
-def equals(field):
-   global fieldText, fieldDisplay 
+def equals(ansField):
+   global fieldText, ans 
    postText = toPostFix(fieldText)
-   result = evalPostFix(postText)
+   ans = evalPostFix(postText)
 
-   result = str(eval(fieldText))
-   fieldText = "" 
+   fieldText = ""
+
    #replace equation text 
-   field.delete("1.0", "end") 
-   field.insert("1.0", result)
+   ansField.delete("1.0", "end") 
+   ansField.insert("1.0", str(ans))
 
+   #send equation and result to client 
+   #client.send(fieldText)
+   #client.send(ans)
 
 #press clear button 
 def clear(field):
-   global fieldText, fieldDisplay 
+   global fieldText
    fieldText = ""
-   fieldDisplay = "" 
    field.delete("1.0", "end")
-
 
 #convert infix to postfix
 def toPostFix(text):
@@ -90,7 +90,6 @@ def toPostFix(text):
    while postStack:
       postText += " " + postStack.pop()
 
-   print (postText)
    return postText
 
 def checkPriority(char, postStack, postText):
@@ -128,19 +127,24 @@ def evalPostFix(fieldText):
    try:
       for element in equation:
          if isNumber(element):
+            element = toStandardNumber(element)
             stack.append(element)
          else:
             val1 = stack.pop() 
             val2 = stack.pop() 
-            result = evaluate(val2, val1, element)
-            stack.append(result) 
+            stack.append(evaluate(val2, val1, element)) 
+
+      result = stack.pop()
+
+      #if result is whole number, return int
+      if int(result) == result:
+         result = int(result)
+
       return result  
    
    except:
       #if nothing in stack then will get error - bc postfix is incorrect
       print("SYNTAX ERROR") 
-
-   
 
 #returns if the string is a number in base hex, dec, or bin 
 def isNumber(string):
@@ -151,13 +155,30 @@ def isNumber(string):
          return False 
    return True
 
+#returns a standard number instead of a string 
+def toStandardNumber(string):
+   result = string
+
+   #if it's negative (like n10 means -10)
+   if string[0] == "n":
+      result = float(string[1:]) * -1 
+   #if e 
+   elif string == "e":
+      result = math.e 
+   #if pi
+   elif string == "\u03C0":
+      result = math.pi 
+   
+   return result
+
+#returns a operator b (ex. evaluate(1,2,"+") = 1+2= 3)
 def evaluate(a, b, operator):
    #returns (a operator b)
    #switch statement in python is match arg case
    a, b = float(a), float(b)
    match operator:
       case "+":
-         res = int(a) + b 
+         res = a + b 
       case "-":
          res = a - b 
       case "*":
@@ -172,17 +193,21 @@ def evaluate(a, b, operator):
    return res
 
 
+def copyAns(eqField):
+   #copy answer from ansField to eqField
+   global ans, fieldText
+   #delete prev content from field 
+   fieldText = ans
 
-def copyAns(field):
+   eqField.delete("1.0", "end") #delete from start to end
+   eqField.insert("1.0", toDisplay(fieldText))
    pass
-
+   
 
 def getPrev(field):
    pass
+   
 
 
-equation = "(1+2)^3"
-equation2 = equation.replace("^", "**")
-txt = toPostFix(equation)
-print(evalPostFix(txt), eval(equation), evalPostFix(txt) == eval(equation))
+
 
