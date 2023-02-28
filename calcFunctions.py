@@ -21,12 +21,8 @@ def toDisplay(equation):
 
 def addEquation(field, equation):  
    global fieldText
-   #if negative sign
-   if equation == "neg":
-      #if negating, have it be n1 * (fieldText) where n1 = -1  
-      fieldText += "n1*" 
-   else:
-      fieldText += str(equation)
+   
+   fieldText += str(equation)
 
    #delete prev content from field 
    field.delete("1.0", "end") #delete from start to end
@@ -52,8 +48,9 @@ def equals(ansField):
    ansField.insert("1.0", str(ans))
 
    #send equation and result to client 
-   #client.send(fieldText)
-   #client.send(ans)
+   print(fieldText, ans)
+   client.send(fieldText)
+   client.send(toNumString(ans))
 
 #press clear button 
 def clear(field):
@@ -197,15 +194,35 @@ def copyAns(eqField):
    #copy answer from ansField to eqField
    global ans, fieldText
    #delete prev content from field 
-   fieldText = ans
+   fieldText = toNumString(ans)
 
    eqField.delete("1.0", "end") #delete from start to end
    eqField.insert("1.0", toDisplay(fieldText))
    pass
    
+#to a string representation of a number - -x -> n1*x for all x > 0
+def toNumString(number):
+   if float(number) < 0:
+      number = "n1*"+str(abs(number))
+   return str(number)
 
-def getPrev(field):
-   pass
+def getPrev(eqField, ansField):
+
+   newEq, newAns = client.get()
+   print(newEq, newAns)
+   if newEq == "empty":
+      newEq = ""
+   if newAns == "empty":
+      newAns = ""
+
+   fieldText = newEq 
+   ans = toNumString(newAns) 
+
+   eqField.delete("1.0", "end") #delete from start to end
+   eqField.insert("1.0", toDisplay(fieldText))
+
+   ansField.delete("1.0", "end")
+   ansField.insert("1.0", toDisplay(ans))
    
 
 

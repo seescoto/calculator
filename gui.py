@@ -39,7 +39,7 @@ button0.grid(row = 8, column = 1, padx = padwidth, pady = padheight)
 buttonDot = tk.Button(window, text = ".", command = lambda: addEquation(eqField, "."), width = buttonwidth)
 buttonDot.grid(row = 8, column = 2, padx = padwidth, pady = padheight)
 
-buttonNeg = tk.Button(window, text = "( - )", command = lambda: addEquation(eqField, "neg"), width = buttonwidth)
+buttonNeg = tk.Button(window, text = "( - )", command = lambda: addEquation(eqField, "n1*"), width = buttonwidth)
 buttonNeg.grid(row = 8, column = 3, padx = padwidth, pady = padheight)
 
 #1, 2, 3
@@ -122,7 +122,7 @@ buttonEqual.grid(row = 8, column = 4, padx = padwidth, pady = padheight)
 
 #row 2 buttons, right beneath text box
 #prev, ans, (, ), clear(already done, no need to repeat)
-buttonPrev = tk.Button(window, text = "prev", command = lambda : getPrev(eqField), width = buttonwidth)
+buttonPrev = tk.Button(window, text = "prev", command = lambda : getPrev(eqField, ansField), width = buttonwidth)
 buttonPrev.grid(row = 2, column = 0, padx = padwidth, pady = padheight)
 
 buttonAns = tk.Button(window, text = "ans", command = lambda: copyAns(eqField), width = buttonwidth)
