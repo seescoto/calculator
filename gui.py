@@ -149,7 +149,7 @@ buttonSetBin.grid(row = 5, column = 0, padx = padwidth, pady = padheight)
 buttonHelp = tk.Button(window, text = "Help?", command = lambda: openHelpPage(window), width = buttonwidth)
 buttonHelp.grid(row = 6, column = 0, padx = padwidth, pady = padheight)
 
-buttonPi = tk.Button(window, text = "\u03C0", command = lambda: addEquation(eqField, "\u03C0"), width = buttonwidth)
+buttonPi = tk.Button(window, text = "\u03C0", command = lambda: addEquation(eqField, "p"), width = buttonwidth)
 buttonPi.grid(row = 7, column = 0, padx = padwidth, pady = padheight)
 
 buttonE = tk.Button(window, text = "e", command = lambda: addEquation(eqField, "e"), width = buttonwidth)

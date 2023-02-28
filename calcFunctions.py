@@ -8,6 +8,8 @@ fieldText = ""
 base = 10
 basePrefix =""
 ans = ""
+#numeric characters = nums plus pi, e, n for negative, decimal point
+numChars = "0123456789ABCDEFpen."
 
 def getBase():
    global base 
@@ -17,6 +19,7 @@ def toDisplay(equation):
    #equation given to functions converted to what displays on the calc
    #n1* becomes a negative sign
    equation = equation.replace("n1*", "-")
+   equation = equation.replace("p", "\u03C0")
    return equation
 
 def addEquation(field, equation):  
@@ -49,9 +52,7 @@ def equals(ansField):
 
    #replace equation text 
    ansField.delete("1.0", "end") 
-   ansField.insert("1.0", str(ans))
-
-   
+   ansField.insert("1.0", str(ans))   
 
 #press clear button 
 def clear(field):
@@ -66,8 +67,8 @@ def toPostFix(text):
 
    #go left to right for input string
    for char in text:
-      #if an operand (nums plus pi, e, n for negative, decimal point), add to postText straight away
-      if char in "0123456789ABCDEF\u03C0en.":
+      #if an operand add to postText straight away
+      if isNumber(char):
          postText += char
       #if an operator
       elif char in "^/*-+":
@@ -146,10 +147,8 @@ def evalPostFix(fieldText):
 
 #returns if the string is a number in base hex, dec, or bin 
 def isNumber(string):
-   #number values - 0-9, A-F, pi, e, n for negative, decimal point
-   numberVals = "0123456789ABCDEF\u03C0en."
    for char in string:
-      if char not in numberVals:
+      if char not in numChars:
          return False 
    return True
 
@@ -164,7 +163,7 @@ def toStandardNumber(string):
    elif string == "e":
       result = math.e 
    #if pi
-   elif string == "\u03C0":
+   elif string == "p":
       result = math.pi 
    
    return result
@@ -199,18 +198,22 @@ def copyAns(eqField):
 
    eqField.delete("1.0", "end") #delete from start to end
    eqField.insert("1.0", toDisplay(fieldText))
-   pass
    
 #to a string representation of a number - -x -> n1*x for all x > 0
 def toNumString(number):
-   if float(number) < 0:
+   #if negative number
+   if number != '' and float(number) < 0:
       number = "n1*"+str(abs(number))
+   #if pi
+   if number == "\u03C0": 
+      number = "p"
+
    return str(number)
 
 def getPrev(eqField, ansField):
-
+   global fieldText, ans
+   
    newEq, newAns = client.get()
-   print(newEq, newAns)
    if newEq == "empty":
       newEq = ""
    if newAns == "empty":
@@ -221,11 +224,6 @@ def getPrev(eqField, ansField):
 
    eqField.delete("1.0", "end") #delete from start to end
    eqField.insert("1.0", toDisplay(fieldText))
-
    ansField.delete("1.0", "end")
    ansField.insert("1.0", toDisplay(ans))
    
-
-
-
-

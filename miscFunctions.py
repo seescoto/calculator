@@ -1,6 +1,6 @@
 #functions for clear/help buttons 
 import tkinter as tk
-
+import CalculatorMicroservice.MicroserviceClient as client
 
 def openHelpPage(masterWindow):
    faqWindow = tk.Toplevel(masterWindow)
@@ -27,5 +27,9 @@ def clearAll(masterWindow):
    clearAllWindow.mainloop()
 
 def clearAllSure():
+   #clear all from stack in microservice
+   eq, ans = client.get() 
+   while eq != 'empty' and eq != ans:
+      eq, ans = client.get()
    pass
 
