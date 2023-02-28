@@ -1,8 +1,6 @@
 to do:
 
-- fix postfix function
 - get previous calculations 
-- set text box to display as left(equation) down&Right(calculation)
 - help page  
 
 extras: 

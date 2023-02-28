@@ -12,6 +12,7 @@ socket.connect("tcp://localhost:5555")
 
 def send(string):
    socket.send(string.encode('ASCII')) 
+   socket.recv()
 
 def get():
    socket.send(b'POP')

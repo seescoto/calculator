@@ -41,16 +41,17 @@ def equals(ansField):
    postText = toPostFix(fieldText)
    ans = evalPostFix(postText)
 
+   #send equation and result to client 
+   client.send(fieldText)
+   client.send(toNumString(ans))
+
    fieldText = ""
 
    #replace equation text 
    ansField.delete("1.0", "end") 
    ansField.insert("1.0", str(ans))
 
-   #send equation and result to client 
-   print(fieldText, ans)
-   client.send(fieldText)
-   client.send(toNumString(ans))
+   
 
 #press clear button 
 def clear(field):
