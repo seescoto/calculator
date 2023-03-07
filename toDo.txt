@@ -1,8 +1,14 @@
 to do:
 
 - help page  
+- make readme better somehow
 
 extras: 
 
 - allow for entry via keyboard (but only valid chars) 
 - make distinction between disabled/enabled buttons more noticeable
+
+
+fix?
+-calcFunctions, evalPostFix ln 151 : dont need the check for pi/e anymore since only available in base 10?
+-calcFunctions, clear ln 78 : also clear ans field when clear is pressed?

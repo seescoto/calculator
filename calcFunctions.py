@@ -12,10 +12,12 @@ eVal = math.e
 piVal = math.pi
 
 def getBase():
+   #returns current base system
    global base 
    return str(base)
 
 def getSet():
+   #returns the set of numbers available per base
    global base 
    if base == 10: #set of real numbers
       return '\u211D'
@@ -23,28 +25,30 @@ def getSet():
       return '\u2124'
 
 def toDisplay(equation):
-   #equation given to functions converted to what displays on the calc
-   #n1* becomes a negative sign
+   #equation given to functions converted to what displays on the calculator
+   #n1* becomes a negative sign, p becomes unicode symbol for pi
    equation = str(equation.replace("n1*", "-"))
    equation = equation.replace("p", "\u03C0")
+
    return equation
 
 def addEquation(field, equation):  
+   #add charactor to end of equation and update display
    global fieldText
    
    fieldText += str(equation)
 
-   #delete prev content from field 
-   field.delete("1.0", "end") #delete from start to end
+   #delete prev content from field then insert new
+   field.delete("1.0", "end") 
    field.insert("1.0", toDisplay(fieldText)) #display equation
 
 def setBase(newBase, field = None, ansField = None):
    global base, fieldText, ans
-
    
    #change current equation/answer to this base and update display
    fieldText = convertEquation(fieldText, newBase)
 
+   #change display fields
    if field:
       field.delete("1.0","end") 
       field.insert("1.0", toDisplay(fieldText)) 
@@ -59,49 +63,47 @@ def setBase(newBase, field = None, ansField = None):
    base = newBase 
 
 def equals(ansField):
+   #evaluates equation and outputs answer
    global fieldText, ans, base 
 
    postText = toPostFix(fieldText)
    ans = evalPostFix(postText)
 
-   #send equation and result to client - as base 10 always 
+   #send equation and result to client - always as base 10 
    client.send(convertEquation(fieldText, 10))
    client.send(convertTo(ans, base, 10))
 
-   fieldText = ""
-
    #replace equation text 
+   fieldText = ""
    ansField.delete("1.0", "end") 
    ansField.insert("1.0", str(ans))   
 
-#press clear button 
 def clear(field):
+   #clears equation from calculator
    global fieldText
+
    fieldText = ""
    field.delete("1.0", "end")
 
-#convert infix to postfix
 def toPostFix(text):
+   #convert infix to postfix
    postText = ""
    postStack = []
 
-   #go left to right for input string
    for char in text:
       #if an operand add to postText straight away
       if isNumber(char):
          postText += char
-      #if an operator
+      #if an operator check priority and push/pop stack
       elif char in "^/*-+":
          postText = checkPriority(char, postStack, postText)
-      #if left parentheses, add to stack no matter what
+      #if left parentheses, push to stack no matter what
       elif char == "(":
          postStack.append(char) 
-      #else must be right parentheses
+      #else must be right parentheses, pop until we get left parentheses
       else:
-         #just add everything else from stack to expression until left parentheses
          while postStack and top(postStack) != "(":
             postText += " " + postStack.pop() + " "
-         #now must be left parentheses
          if postStack: 
             postStack.pop()
 
@@ -112,15 +114,16 @@ def toPostFix(text):
    return postText
 
 def checkPriority(char, postStack, postText):
-   #check the priority of the operator vs the top of the stack
+   #check the priority of the operator vs the top of the stack and push/pop as necessary
 
-   topIsParenth = top(postStack) == "(" #if top of stack is left parentheses
+   topIsParenth = (top(postStack) == "(") #if top of stack is left parentheses
+   leqPriority = (priority(char) <= priority(top(postStack)))
 
    #if lower priority or equal to top of stack, pop and repeat
-   while postStack and not(topIsParenth) and (priority(char) <= priority(top(postStack))):
+   while postStack and not(topIsParenth) and leqPriority:
       postText += " " + postStack.pop() + " "
 
-   #if nothing or "(" at top of stack OR has higher priority than top of stack, push 
+   #else nothing or "(" at top of stack OR has higher priority than top of stack so push 
    postText += " "
    postStack.append(char) 
    
@@ -134,6 +137,7 @@ def priority(char):
    return 2 if char in high else 1 
 
 def top(arr):
+   #returns last element in array
    if arr:
       return arr[-1]
    return ""
@@ -149,7 +153,7 @@ def evalPostFix(fieldText):
       for element in equation:
          if isNumber(element):
             if "e" not in element and "p" not in element:
-               #if the number isnt e, -e, or pi, -pi which will already be in base 10, convert them
+               #if the number isnt e, -e, or pi, -pi convert to base
                element = toStandardNumber(element)
                element = convertTo(element, base, 10)
             else:
@@ -224,21 +228,23 @@ def evaluate(a, b, operator):
 #to a string representation of a number - -x -> n1*x for all x > 0
 def toNumString(number):
 
-   number = number.replace("n1*", "-")
-   number = number.replace("\u03c0", "p") #replace pi symbol
+   number = number.replace("n1*", "-") #distinguish negative values
+   number = number.replace("\u03c0", "p") #replace pi symbol w/ p
 
    return str(number)
 
 def getPrev(eqField, ansField):
    global fieldText, ans
    
+   #get prev equation and answer
    newEq, newAns = client.get()
+
    if newEq == "empty":
       newEq = ""
    if newAns == "empty":
       newAns = ""
 
-   #get equation and answer back from base 10 to current base
+   #equation and answer are in base 10 - convert to current base
    fieldText = convertEquation(newEq, base)
    ans = toNumString(convertTo(newAns, 10, base)) 
 
@@ -248,9 +254,9 @@ def getPrev(eqField, ansField):
    ansField.insert("1.0", toDisplay(ans))
    
 def copyAns(eqField):
-   #copy answer from ansField to eqField
    global ans, fieldText
-   #delete prev content from field 
+   #copy answer from ansField to eqField
+   
    fieldText = toNumString(ans)
 
    eqField.delete("1.0", "end") #delete from start to end
@@ -258,9 +264,11 @@ def copyAns(eqField):
 
 def convertEquation(equation, newBase):
 
+   #if nothing in equation just return
    if len(equation) == 0:
       return ''
 
+   #else edit using old equation as format
    newEq = ""
    oldBaseNum = ""
 
@@ -268,9 +276,10 @@ def convertEquation(equation, newBase):
       if isNumber(char):
          oldBaseNum += char 
       else:
-         #else then we're at an operator and the current number has ended 
-         #if not pi or e then convert - pi or e stay same representation in all bases
+         #else then we're at an operator and the current number has ended, 
+         #so convert and add to eq
          if "e" in oldBaseNum or "pi" in oldBaseNum:
+            #pi or e stay same representation in all bases
             newEq += oldBaseNum
          elif oldBaseNum != "":
             newBaseNum = toStandardNumber(oldBaseNum)
@@ -278,7 +287,7 @@ def convertEquation(equation, newBase):
             newBaseNum = toNumString(newBaseNum)
             newEq += newBaseNum 
          
-         #add operator character
+         #add operator char
          newEq += char 
 
    return newEq

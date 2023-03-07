@@ -37,15 +37,6 @@ def showWait(window):
    lab = tk.Label(window, text = "Please wait...")
    lab.grid()
 
-
-   '''
-   waitWindow = tk.Toplevel(window)
-   wait = tk.Label(waitWindow, text = "Please wait...")
-   wait.grid()
-
-   waitWindow.mainloop()
-   '''
-
 def disable(base, buttons):
 
    if base == 2:
@@ -67,7 +58,7 @@ def disable(base, buttons):
 
    
    else:
-      #hex, disable decimabl point, pi, e
+      #hex, disable decimal point, pi, e
       for i in range(16, len(buttons)):
          buttons[i]['state'] = 'disabled'
       #enable all other buttons 0-F (0 thru 15)
