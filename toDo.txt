@@ -1,9 +1,8 @@
 to do:
 
-- get previous calculations 
 - help page  
 
 extras: 
 
 - allow for entry via keyboard (but only valid chars) 
-
+- make distinction between disabled/enabled buttons more noticeable

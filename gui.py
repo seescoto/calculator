@@ -32,69 +32,67 @@ def showBase():
    numTypeLabel.config(text="works for values in " + getSet())
 baseLabel.grid(column=0, row=0)
 
-
-
 #number buttons 
 #0, ., (-)
-button0 = tk.Button(window, text = "0", command = lambda: addEquation(eqField, 0), width = buttonwidth)
+button0 = tk.Button(window, text = "0", command = lambda: addEquation(eqField, 0), width = buttonwidth, disabledforeground = 'lightgrey')
 button0.grid(row = 8, column = 1, padx = padwidth, pady = padheight)
 
 
-buttonDot = tk.Button(window, text = ".", command = lambda: addEquation(eqField, "."), width = buttonwidth)
+buttonDot = tk.Button(window, text = ".", command = lambda: addEquation(eqField, "."), width = buttonwidth, disabledforeground = 'lightgrey')
 buttonDot.grid(row = 8, column = 2, padx = padwidth, pady = padheight)
 
 
-buttonNeg = tk.Button(window, text = "( - )", command = lambda: addEquation(eqField, "n1*"), width = buttonwidth)
+buttonNeg = tk.Button(window, text = "( - )", command = lambda: addEquation(eqField, "n1*"), width = buttonwidth, disabledforeground = 'lightgrey')
 buttonNeg.grid(row = 8, column = 3, padx = padwidth, pady = padheight)
 
 #1, 2, 3
-button1 = tk.Button(window, text = "1", command = lambda: addEquation(eqField, 1), width = buttonwidth)
+button1 = tk.Button(window, text = "1", command = lambda: addEquation(eqField, 1), width = buttonwidth, disabledforeground = 'lightgrey')
 button1.grid(row = 7, column = 1, padx = padwidth, pady = padheight)
 
-button2 = tk.Button(window, text = "2", command = lambda: addEquation(eqField, 2), width = buttonwidth)
+button2 = tk.Button(window, text = "2", command = lambda: addEquation(eqField, 2), width = buttonwidth, disabledforeground = 'lightgrey')
 button2.grid(row = 7, column = 2, padx = padwidth, pady = padheight)
 
-button3 = tk.Button(window, text = "3", command = lambda: addEquation(eqField, 3), width = buttonwidth)
+button3 = tk.Button(window, text = "3", command = lambda: addEquation(eqField, 3), width = buttonwidth, disabledforeground = 'lightgrey')
 button3.grid(row = 7, column = 3, padx = padwidth, pady = padheight)
 
 #4, 5 ,6
-button4 = tk.Button(window, text = "4", command = lambda: addEquation(eqField, 4), width = buttonwidth)
+button4 = tk.Button(window, text = "4", command = lambda: addEquation(eqField, 4), width = buttonwidth, disabledforeground = 'lightgrey')
 button4.grid(row = 6, column = 1, padx = padwidth, pady = padheight)
 
-button5 = tk.Button(window, text = "5", command = lambda: addEquation(eqField, 5), width = buttonwidth)
+button5 = tk.Button(window, text = "5", command = lambda: addEquation(eqField, 5), width = buttonwidth, disabledforeground = 'lightgrey')
 button5.grid(row = 6, column = 2, padx = padwidth, pady = padheight)
 
-button6 = tk.Button(window, text = "6", command = lambda: addEquation(eqField, 6), width = buttonwidth)
+button6 = tk.Button(window, text = "6", command = lambda: addEquation(eqField, 6), width = buttonwidth, disabledforeground = 'lightgrey')
 button6.grid(row = 6, column = 3, padx = padwidth, pady = padheight)
 
 #7, 8, 9
-button7 = tk.Button(window, text = "7", command = lambda: addEquation(eqField, 7), width = buttonwidth)
+button7 = tk.Button(window, text = "7", command = lambda: addEquation(eqField, 7), width = buttonwidth, disabledforeground = 'lightgrey')
 button7.grid(row = 5, column = 1, padx = padwidth, pady = padheight)
 
-button8 = tk.Button(window, text = "8", command = lambda: addEquation(eqField, 8), width = buttonwidth)
+button8 = tk.Button(window, text = "8", command = lambda: addEquation(eqField, 8), width = buttonwidth, disabledforeground = 'lightgrey')
 button8.grid(row = 5, column = 2, padx = padwidth, pady = padheight)
 
-button9 = tk.Button(window, text = "9", command = lambda: addEquation(eqField, 9), width = buttonwidth)
+button9 = tk.Button(window, text = "9", command = lambda: addEquation(eqField, 9), width = buttonwidth, disabledforeground = 'lightgrey')
 button9.grid(row = 5, column = 3, padx = padwidth, pady = padheight)
 
 #A, B, C
-buttonA = tk.Button(window, text = "A", command = lambda: addEquation(eqField, "A"), width = buttonwidth)
+buttonA = tk.Button(window, text = "A", command = lambda: addEquation(eqField, "A"), width = buttonwidth, disabledforeground = 'lightgrey')
 buttonA.grid(row = 4, column = 1, padx = padwidth, pady = padheight)
 
-buttonB = tk.Button(window, text = "B", command = lambda: addEquation(eqField, "B"), width = buttonwidth)
+buttonB = tk.Button(window, text = "B", command = lambda: addEquation(eqField, "B"), width = buttonwidth, disabledforeground = 'lightgrey')
 buttonB.grid(row = 4, column = 2, padx = padwidth, pady = padheight)
 
-buttonC = tk.Button(window, text = "C", command = lambda: addEquation(eqField, "C"), width = buttonwidth)
+buttonC = tk.Button(window, text = "C", command = lambda: addEquation(eqField, "C"), width = buttonwidth, disabledforeground = 'lightgrey')
 buttonC.grid(row = 4, column = 3, padx = padwidth, pady = padheight)
 
 #D, E, F
-buttonD = tk.Button(window, text = "D", command = lambda: addEquation(eqField, "D"), width = buttonwidth)
+buttonD = tk.Button(window, text = "D", command = lambda: addEquation(eqField, "D"), width = buttonwidth, disabledforeground = 'lightgrey')
 buttonD.grid(row = 3, column = 1, padx = padwidth, pady = padheight)
 
-buttonE = tk.Button(window, text = "E", command = lambda: addEquation(eqField, "E"), width = buttonwidth)
+buttonE = tk.Button(window, text = "E", command = lambda: addEquation(eqField, "E"), width = buttonwidth, disabledforeground = 'lightgrey')
 buttonE.grid(row = 3, column = 2, padx = padwidth, pady = padheight)
 
-buttonF = tk.Button(window, text = "F", command = lambda: addEquation(eqField, "F"), width = buttonwidth)
+buttonF = tk.Button(window, text = "F", command = lambda: addEquation(eqField, "F"), width = buttonwidth, disabledforeground = 'lightgrey')
 buttonF.grid(row = 3, column = 3, padx = padwidth, pady = padheight)
 
 
@@ -142,10 +140,10 @@ buttonPar2.grid(row = 2, column = 3, padx = padwidth, pady = padheight)
 #col1 buttons
 #hex, dec, bin, help!, pi, e
 #last 3
-buttonPi = tk.Button(window, text = "\u03C0", command = lambda: addEquation(eqField, "p"), width = buttonwidth)
+buttonPi = tk.Button(window, text = "\u03C0", command = lambda: addEquation(eqField, "p"), width = buttonwidth, disabledforeground = 'lightgrey')
 buttonPi.grid(row = 7, column = 0, padx = padwidth, pady = padheight)
 
-buttonEuler = tk.Button(window, text = "e", command = lambda: addEquation(eqField, "e"), width = buttonwidth)
+buttonEuler = tk.Button(window, text = "e", command = lambda: addEquation(eqField, "e"), width = buttonwidth, disabledforeground = 'lightgrey')
 buttonEuler.grid(row = 8, column = 0, padx = padwidth, pady = padheight)
 
 buttonHelp = tk.Button(window, text = "Help?", command = lambda: openHelpPage(window), width = buttonwidth)
