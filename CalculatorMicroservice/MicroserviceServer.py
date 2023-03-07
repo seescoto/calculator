@@ -18,7 +18,7 @@ while True:
 
     #  If request is "POP", server sends back a JSON containing the last pushed equation and result
     if req == b"POP":
-        if arr == []:
+        if len(arr) == 0:
             resJSON = {"equation": "empty", "result": "empty"}
             res = json.dumps(resJSON)
             socket.send_json(res)

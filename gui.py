@@ -21,14 +21,17 @@ ansField = tk.Text(window, height = 5, width = 10)
 ansField.grid(row = 1, column = 4, columnspan = 1)
 
 baseLabel = tk.Label(text="BASE " + getBase())
-baseLabel.grid(column=0, row=0)
+baseLabel.grid(row=0, column = 0) 
+numTypeLabel = tk.Label(text = "works for values in " + getSet())
+numTypeLabel.grid(row = 0, column = 2, columnspan = 2)
+
  
 #reminds user of what base they're in 
 def showBase():
    baseLabel.config(text = "BASE " + getBase())
-
-baseLabel = tk.Label(text="BASE " + getBase())
+   numTypeLabel.config(text="works for values in " + getSet())
 baseLabel.grid(column=0, row=0)
+
 
 
 #number buttons 
@@ -36,8 +39,10 @@ baseLabel.grid(column=0, row=0)
 button0 = tk.Button(window, text = "0", command = lambda: addEquation(eqField, 0), width = buttonwidth)
 button0.grid(row = 8, column = 1, padx = padwidth, pady = padheight)
 
+
 buttonDot = tk.Button(window, text = ".", command = lambda: addEquation(eqField, "."), width = buttonwidth)
 buttonDot.grid(row = 8, column = 2, padx = padwidth, pady = padheight)
+
 
 buttonNeg = tk.Button(window, text = "( - )", command = lambda: addEquation(eqField, "n1*"), width = buttonwidth)
 buttonNeg.grid(row = 8, column = 3, padx = padwidth, pady = padheight)
@@ -93,7 +98,6 @@ buttonF = tk.Button(window, text = "F", command = lambda: addEquation(eqField, "
 buttonF.grid(row = 3, column = 3, padx = padwidth, pady = padheight)
 
 
-
 #basic calc function buttons (col 4)
 #clear, ^, /, *, -, +, =
 buttonClear = tk.Button(window, text = "clear", command = lambda: clear(eqField), width = buttonwidth)
@@ -135,25 +139,35 @@ buttonPar2 = tk.Button(window, text = ")", command = lambda: addEquation(eqField
 buttonPar2.grid(row = 2, column = 3, padx = padwidth, pady = padheight)
 
 
-#col1 buttons, extra math + setbase
-#hex, dec, bin, help!, pi, e, log
-buttonSetHex = tk.Button(window, text = "HEX", command = lambda: [setBase(16), showBase()], width = buttonwidth)
-buttonSetHex.grid(row = 3, column = 0, padx = padwidth, pady = padheight)
+#col1 buttons
+#hex, dec, bin, help!, pi, e
+#last 3
+buttonPi = tk.Button(window, text = "\u03C0", command = lambda: addEquation(eqField, "p"), width = buttonwidth)
+buttonPi.grid(row = 7, column = 0, padx = padwidth, pady = padheight)
 
-buttonSetDec = tk.Button(window, text = "DEC", command = lambda: [setBase(10), showBase()], width = buttonwidth)
-buttonSetDec.grid(row = 4, column = 0, padx = padwidth, pady = padheight)
-
-buttonSetBin = tk.Button(window, text = "BIN", command = lambda: [setBase(2), showBase()], width = buttonwidth)
-buttonSetBin.grid(row = 5, column = 0, padx = padwidth, pady = padheight)
+buttonEuler = tk.Button(window, text = "e", command = lambda: addEquation(eqField, "e"), width = buttonwidth)
+buttonEuler.grid(row = 8, column = 0, padx = padwidth, pady = padheight)
 
 buttonHelp = tk.Button(window, text = "Help?", command = lambda: openHelpPage(window), width = buttonwidth)
 buttonHelp.grid(row = 6, column = 0, padx = padwidth, pady = padheight)
 
-buttonPi = tk.Button(window, text = "\u03C0", command = lambda: addEquation(eqField, "p"), width = buttonwidth)
-buttonPi.grid(row = 7, column = 0, padx = padwidth, pady = padheight)
+#number buttons for disabling/enabling according to base
+numButtons = [button0, button1, button2, button3, button4, button5, button6, button7, button8, button9, 
+              buttonA, buttonB, buttonC, buttonD, buttonE, buttonF, buttonDot, buttonEuler, buttonPi]
+disable(base, numButtons)
+#first 3
+buttonSetHex = tk.Button(window, text = "HEX", command = lambda: [setBase(16, eqField, ansField), showBase(), disable(16, numButtons)], width = buttonwidth)
+buttonSetHex.grid(row = 3, column = 0, padx = padwidth, pady = padheight)
 
-buttonE = tk.Button(window, text = "e", command = lambda: addEquation(eqField, "e"), width = buttonwidth)
-buttonE.grid(row = 8, column = 0, padx = padwidth, pady = padheight)
+buttonSetDec = tk.Button(window, text = "DEC", command = lambda: [setBase(10, eqField, ansField), showBase(), disable(10, numButtons)], width = buttonwidth)
+buttonSetDec.grid(row = 4, column = 0, padx = padwidth, pady = padheight)
+
+buttonSetBin = tk.Button(window, text = "BIN", command = lambda: [setBase(2, eqField, ansField), showBase(), disable(2, numButtons)], width = buttonwidth)
+buttonSetBin.grid(row = 5, column = 0, padx = padwidth, pady = padheight)
+
+
+
+
 
 
 #always show window 
