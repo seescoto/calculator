@@ -6,8 +6,12 @@ def openHelpPage(masterWindow):
    faqWindow = tk.Toplevel(masterWindow)
    faqWindow.title("FAQ")
 
-   title = tk.Label(text = "FAQ about this calculator")
-   title.pack()
+   helpPage = tk.Text(faqWindow, wrap='word')
+   #read faq from txt file 
+   with open("faq.txt", 'r') as faq:
+      helpPage.insert("end", faq.read())
+
+   helpPage.grid()
 
    faqWindow.mainloop()
 
@@ -19,7 +23,7 @@ def clearAll(masterWindow):
 
    lab = tk.Label(clearAllWindow, text = "Are you sure you'd like to delete all past calculations? This can't be undone.")
    lab.grid(row = 0, pady = 10)
-   buttonYes = tk.Button(clearAllWindow, text = "Yes, delete all calculations", command = lambda: [showWait(clearAllWindow), clearAllSure(), clearAllWindow.destroy()])
+   buttonYes = tk.Button(clearAllWindow, text = "Yes, delete all calculations", command = lambda: [clearAllSure(), clearAllWindow.destroy()])
    buttonYes.grid(pady=10) 
    buttonNo = tk.Button(clearAllWindow, text = "No, take me back", command = lambda: clearAllWindow.destroy())
    buttonNo.grid(pady=10) 
@@ -31,11 +35,6 @@ def clearAllSure():
    eq, ans = client.get() 
    while eq != 'empty' and eq != ans:
       eq, ans = client.get()
-
-def showWait(window):
-
-   lab = tk.Label(window, text = "Please wait...")
-   lab.grid()
 
 def disable(base, buttons):
 
