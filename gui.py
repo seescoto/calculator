@@ -16,8 +16,8 @@ window.title("Calculator")
 
 
 #windows for where equation and answer text will show up 
-eqField = tk.Text(window, height = 5, width = 50)
-eqField.grid(row = 1, columnspan = 4)
+eqField = tk.Text(window, height = 5,width = 50)
+eqField.grid(row = 1, columnspan = 4) #r = 1 cs = 4
 ansField = tk.Text(window, height = 5, width = 10)
 ansField.grid(row = 1, column = 4, columnspan = 1)
 
@@ -96,7 +96,7 @@ buttonF.grid(row = 3, column = 3, padx = padwidth, pady = padheight)
 
 #basic calc function buttons (col 4)
 #clear, ^, /, *, -, +, =
-buttonClear = tk.Button(window, text = "clear", command = lambda: clear(eqField), width = buttonwidth)
+buttonClear = tk.Button(window, text = "clear", command = lambda: clear(eqField, ansField), width = buttonwidth)
 buttonClear.grid(row = 2, column = 4, padx = padwidth, pady = padheight)
 #if double clicked, clears all 
 buttonClear.bind('<Double-1>', func = lambda x: clearAll(window))

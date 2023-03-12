@@ -76,14 +76,17 @@ def equals(ansField):
    #replace equation text 
    fieldText = ""
    ansField.delete("1.0", "end") 
-   ansField.insert("1.0", str(ans))   
+   ansField.insert("1.0", toNumString(ans))   
 
-def clear(field):
-   #clears equation from calculator
-   global fieldText
+def clear(eqField, ansField):
+   #clears equation and ans from calculator
+   global fieldText, ans
 
    fieldText = ""
-   field.delete("1.0", "end")
+   ans = ""
+
+   eqField.delete("1.0", "end")
+   ansField.delete("1.0", "end")
 
 def toPostFix(text):
    #convert infix to postfix
@@ -221,7 +224,7 @@ def evaluate(a, b, operator):
 
    return res
 
-#to a string representation of a number - -x -> n1*x for all x > 0
+#to a string representation of a number - n1*x -> -x 
 def toNumString(number):
 
    number = number.replace("n1*", "-") #distinguish negative values
@@ -252,7 +255,8 @@ def getPrev(eqField, ansField):
 def copyAns(eqField):
    global ans, fieldText
    #copy answer from ansField to eqField
-   
+   if ans[0] == "-":
+      ans = ans.replace('-', 'n1*')
    fieldText = ans
 
    eqField.delete("1.0", "end") #delete from start to end
@@ -314,8 +318,3 @@ def convertTo(number, currBase, newBase):
       number = number.upper()
 
    return str(number)
-
-base = 16 
-newBase = 10 
-eq="5+F"
-print(convertEquation(eq, newBase))

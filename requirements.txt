@@ -1,0 +1,3 @@
+pyzmq 
+tk 
+python-math 
