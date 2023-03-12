@@ -33,7 +33,7 @@ def toDisplay(equation):
    return equation
 
 def addEquation(field, equation):  
-   #add charactor to end of equation and update display
+   #add charactors to end of equation and update display
    global fieldText
    
    fieldText += str(equation)
@@ -116,7 +116,7 @@ def toPostFix(text):
 def checkPriority(char, postStack, postText):
    #check the priority of the operator vs the top of the stack and push/pop as necessary
 
-   topIsParenth = (top(postStack) == "(") #if top of stack is left parentheses
+   topIsParenth = (top(postStack) == "(") 
    leqPriority = (priority(char) <= priority(top(postStack)))
 
    #if lower priority or equal to top of stack, pop and repeat
@@ -152,17 +152,13 @@ def evalPostFix(fieldText):
    try:
       for element in equation:
          if isNumber(element):
-            if "e" not in element and "p" not in element:
-               #if the number isnt e, -e, or pi, -pi convert to base
-               element = toStandardNumber(element)
-               element = convertTo(element, base, 10)
-            else:
-               element = toStandardNumber(element)
+            element = toStandardNumber(element) 
+            element = convertTo(element, base, 10)
             stack.append(element)
-         else:
+         else: #is an operator
             val1 = stack.pop() 
             val2 = stack.pop() 
-            stack.append(evaluate(val2, val1, element)) 
+            stack.append(evaluate(val2, val1, element))
 
       result = stack.pop()
 
@@ -173,13 +169,13 @@ def evalPostFix(fieldText):
       return convertTo(result, 10, base)  
    
    except:
-      #if nothing in stack then will get error - bc postfix is incorrect
-      print("SYNTAX ERROR") 
+      #if nothing in stack then will get error - equation/postfix is incorrect
+      print("SYNTAX ERROR - Equation invalid.") 
 
 #returns if the string is a number in base hex, dec, or bin 
 def isNumber(string):
    #numeric characters = nums plus pi, e, n for negative, decimal point
-   numChars = "0123456789ABCDEFpen.\u03c0"
+   numChars = "0123456789ABCDEFpen."
 
    for char in string:
       if char not in numChars:
@@ -198,7 +194,7 @@ def toStandardNumber(string):
    elif "p" in string:
       result = result.replace("p", str(math.pi))
       result = toStandardNumber(result)
-   #if it's negative (like n10 means -10)
+   #if it's negative (like n1*10 means -10)
    elif string[0] == "n":
       result = result.replace("n", "-")
    
@@ -257,7 +253,7 @@ def copyAns(eqField):
    global ans, fieldText
    #copy answer from ansField to eqField
    
-   fieldText = toNumString(ans)
+   fieldText = ans
 
    eqField.delete("1.0", "end") #delete from start to end
    eqField.insert("1.0", toDisplay(fieldText))
@@ -278,17 +274,19 @@ def convertEquation(equation, newBase):
       else:
          #else then we're at an operator and the current number has ended, 
          #so convert and add to eq
-         if "e" in oldBaseNum or "pi" in oldBaseNum:
-            #pi or e stay same representation in all bases
-            newEq += oldBaseNum
-         elif oldBaseNum != "":
+         if oldBaseNum != "":
             newBaseNum = toStandardNumber(oldBaseNum)
-            newBaseNum = convertTo(newBaseNum, base, newBase)
-            newBaseNum = toNumString(newBaseNum)
+            newBaseNum = toNumString(convertTo(newBaseNum, base, newBase))
             newEq += newBaseNum 
+            oldBaseNum = ""
          
          #add operator char
          newEq += char 
+
+   #convert last number in equation and add to newEq 
+   newBaseNum = toStandardNumber(oldBaseNum)
+   newBaseNum = toNumString(convertTo(newBaseNum, base, newBase))
+   newEq += newBaseNum 
 
    return newEq
 
@@ -317,3 +315,7 @@ def convertTo(number, currBase, newBase):
 
    return str(number)
 
+base = 16 
+newBase = 10 
+eq="5+F"
+print(convertEquation(eq, newBase))

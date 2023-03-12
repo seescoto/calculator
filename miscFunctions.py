@@ -51,7 +51,7 @@ def disable(base, buttons):
       for i in range(10, len(buttons)-2):
          buttons[i]['state'] = 'disabled' 
       #enable 0-9 and ALSO pi, e, decimal point
-      abled = [b for b in range(0, 10)] + [b for b in range(len(buttons) -1, 16, -1)]
+      abled = [b for b in range(0, 10)] + [b for b in range(len(buttons) -1, 15, -1)]
       for i in abled:
          buttons[i]['state'] = 'active'
 
