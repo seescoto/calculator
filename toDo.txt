@@ -1,8 +1,0 @@
-to do:
-
-- help page  
-- make readme better somehow
-
-extras: 
-
-- allow for entry via keyboard (but only valid chars) 

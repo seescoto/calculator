@@ -10,6 +10,8 @@ socket = context.socket(zmq.REQ)
 socket.connect("tcp://localhost:5555")
 
 
+
+#functions by sofia 
 def send(string):
    socket.send(string.encode('ASCII')) 
    socket.recv()

@@ -46,7 +46,7 @@ def setBase(newBase, field = None, ansField = None):
    global base, fieldText, ans
    
    #change current equation/answer to this base and update display
-   fieldText = convertEquation(fieldText, newBase)
+   fieldText = convertEquation(fieldText, base, newBase)
 
    #change display fields
    if field:
@@ -70,7 +70,7 @@ def equals(ansField):
    ans = evalPostFix(postText)
 
    #send equation and result to client - always as base 10 
-   client.send(convertEquation(fieldText, 10))
+   client.send(convertEquation(fieldText, base, 10))
    client.send(convertTo(ans, base, 10))
 
    #replace equation text 
@@ -244,7 +244,7 @@ def getPrev(eqField, ansField):
       newAns = ""
 
    #equation and answer are in base 10 - convert to current base
-   fieldText = convertEquation(newEq, base)
+   fieldText = convertEquation(newEq, 10, base)
    ans = toNumString(convertTo(newAns, 10, base)) 
 
    eqField.delete("1.0", "end") #delete from start to end
@@ -255,14 +255,14 @@ def getPrev(eqField, ansField):
 def copyAns(eqField):
    global ans, fieldText
    #copy answer from ansField to eqField
-   if ans[0] == "-":
+   if ans and ans[0] == "-":
       ans = ans.replace('-', 'n1*')
    fieldText = ans
 
    eqField.delete("1.0", "end") #delete from start to end
    eqField.insert("1.0", toDisplay(fieldText))
 
-def convertEquation(equation, newBase):
+def convertEquation(equation, oldBase, newBase):
 
    #if nothing in equation just return
    if len(equation) == 0:
@@ -280,7 +280,7 @@ def convertEquation(equation, newBase):
          #so convert and add to eq
          if oldBaseNum != "":
             newBaseNum = toStandardNumber(oldBaseNum)
-            newBaseNum = toNumString(convertTo(newBaseNum, base, newBase))
+            newBaseNum = toNumString(convertTo(newBaseNum, oldBase, newBase))
             newEq += newBaseNum 
             oldBaseNum = ""
          
@@ -289,7 +289,7 @@ def convertEquation(equation, newBase):
 
    #convert last number in equation and add to newEq 
    newBaseNum = toStandardNumber(oldBaseNum)
-   newBaseNum = toNumString(convertTo(newBaseNum, base, newBase))
+   newBaseNum = toNumString(convertTo(newBaseNum, oldBase, newBase))
    newEq += newBaseNum 
 
    return newEq

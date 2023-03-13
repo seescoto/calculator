@@ -9,6 +9,6 @@ What does each button do?
 
 - {prev}: Returns the last calculated value from both the equation field and the answer field and for the user to see or change.
 - {ans}: Returns last calculated answer from the answer field and copies it into the equation field for the user to use in their next calculation.
-- {clear}: Pressing once will clear the equation and answer fields on the calculator but won't affect long-term memory. Pressing clear twice will clear all past calculations and make prev useless until a new calculation is entered.
+- {clear}: Pressing once will clear the equation and answer fields on the calculator but won't affect long-term memory. Pressing clear twice will clear all past calculations and make prev useless until a new calculation is entered. THIS MAY TAKE A FEW SECONDS. Depending on how many previous calculations you've entered, you might have to wait a little bit for it to finish clearing.
 - {HEX/DEC/BIN}: Sets the calculators base to either 16, 10, or 2, respectively.
 - {Help?}: Take a guess :)
